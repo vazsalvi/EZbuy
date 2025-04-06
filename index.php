@@ -1,466 +1,463 @@
 <?php
-// Start the session
+// Keep PHP part unchanged until categories array
 session_start();
-// Check if the logout link is clicked
+
 if (isset($_GET['logout']) && $_GET['logout'] == 'true') {
-    // Destroy all session variables and the session itself
     session_unset();
     session_destroy();
-
-    // Redirect the user to the login page after logging out
-    header("Location: index.php"); // Replace 'login.php' with your actual login page
+    header("Location: index.php");
     exit();
 }
 
+$username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
 
-// Now, you can use $_SESSION['username'] for the logged-in user's username
-// Check if the user is logged in by verifying the session variable
-if (isset($_SESSION['username'])) {
-    // Display the username if logged in
-    echo "Welcome, " . $_SESSION['username'];
-} else {
-    // If the user is not logged in, you can display a message or leave it blank
-    echo "Please log in to continue.";
-}
+// Update categories array with custom icon classes
+$categories = [
+    [
+        'id' => 'electronics',
+        'title' => 'Electronics Hub',
+        'icon' => 'icon-laptop',
+        'description' => 'Latest gadgets, smart devices, and cutting-edge technology',
+        'products' => '500+',
+        'rating' => '4.8',
+        'link' => 'index-4.php',
+        'image' => 'assets/images/demos-img/electronics (2).jpg'
+    ],
+    [
+        'id' => 'shoes',
+        'title' => 'Footwear Collection',
+        'icon' => 'icon-shopping-cart',
+        'description' => 'Trendy shoes, sneakers, and fashion footwear',
+        'products' => '300+',
+        'rating' => '4.7',
+        'link' => 'index-10.php',
+        'image' => 'assets/images/demos-img/shoe.jpg'
+    ],
+    [
+        'id' => 'furniture',
+        'title' => 'Home & Furniture',
+        'icon' => 'icon-th',
+        'description' => 'Modern furniture and home decor essentials',
+        'products' => '200+',
+        'rating' => '4.9',
+        'link' => 'index-11.php',
+        'image' => 'assets/images/demos-img/bedroom.jpg'
+    ],
+    [
+        'id' => 'fashion',
+        'title' => 'Fashion Studio',
+        'icon' => 'icon-star',
+        'description' => 'Contemporary clothing and accessories',
+        'products' => '1000+',
+        'rating' => '4.6',
+        'link' => 'index-12.php',
+        'image' => 'assets/images/demos-img/traditional.jpg'
+    ],
+    [
+        'id' => 'gaming',
+        'title' => 'Gaming Zone',
+        'icon' => 'icon-life-saver',
+        'description' => 'Games, consoles, and gaming accessories',
+        'products' => '400+',
+        'rating' => '4.8',
+        'link' => 'index-19.php',
+        'image' => 'assets/images/demos-img/game.jpg'
+    ],
+    [
+        'id' => 'books',
+        'title' => 'Book Haven',
+        'icon' => 'icon-align-left',
+        'description' => 'Books across all genres and interests',
+        'products' => '5000+',
+        'rating' => '4.9',
+        'link' => 'index-20.php',
+        'image' => 'assets/images/demos-img/books (1).jpg'
+    ],
+    [
+        'id' => 'sports',
+        'title' => 'Sports Central',
+        'icon' => 'icon-html5',
+        'description' => 'Sports equipment and fitness gear',
+        'products' => '600+',
+        'rating' => '4.7',
+        'link' => 'index-21.php',
+        'image' => 'assets/images/demos-img/sport.jpg'
+    ],
+    [
+        'id' => 'extreme',
+        'title' => 'Extreme Sports',
+        'icon' => 'icon-code',
+        'description' => 'Gear for adventure and extreme sports',
+        'products' => '250+',
+        'rating' => '4.8',
+        'link' => 'index-24.php',
+        'image' => 'assets/images/demos-img/extreme.jpg'
+    ]
+];
 ?>
 
 <!DOCTYPE html>
-<html>
-
-<!-- molla/index.html  22 Nov 2019 09:54:33 GMT -->
-
-
+<html lang="en">
 <head>
-	<script type="text/javascript">
-		if (top !== window) {
-			top.location.href = window.location.href;
-		}
-		if (window.location.hash) {
-			window.location.href = window.location.href.replace(window.location.hash, '');
-		}
-	</script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EZbuy - AI-Powered Shopping Experience</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="lib/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/main.min.css">
+    
+    <style>
+        /* Keep existing styles unchanged */
+        :root {
+            --primary-color: #4A90E2;
+            --secondary-color: #2C3E50;
+            --accent-color: #E74C3C;
+            --background-light: #F8F9FA;
+            --text-dark: #2C3E50;
+            --text-light: #95A5A6;
+        }
 
-	<!-- Basic -->
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-light);
+        }
 
-	<title>EZbuy - Best Premium HTML Template</title>
+        .hero-section {
+            position: relative;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            overflow: hidden;
+            padding: 100px 0;
+        }
 
-	<meta name="author" content="p-Themes">
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+        }
 
-	<!-- Favicon -->
-	<link rel="shortcut icon" href="https://www.portotheme.com/html/molla/assets/images/demos-img/favicon.ico"
-		type="image/x-icon" />
-	<link rel="apple-touch-icon"
-		href="../../../www.portotheme.com/html/molla/assets/images/demos-img/apple-touch-icon.html">
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
 
-	<!-- Mobile Metas -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+        }
 
-	<!-- Web Fonts  -->
-	<link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800" rel="stylesheet" type="text/css">
+        .category-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
 
-	<!-- Vendor CSS -->
-	<link rel="stylesheet" href="lib/bootstrap/bootstrap.min.css">
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: var(--bg-image);
+            background-size: cover;
+            background-position: center;
+            opacity: 0.1;
+            transition: opacity 0.3s ease;
+        }
 
-	<!-- Theme CSS -->
-	<link rel="stylesheet" href="assets/css/main.min.css">
+        .category-card:hover::before {
+            opacity: 0.2;
+        }
 
-	<style>
-  .demos {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px; /* Adjust spacing between items */
-  }
+        .category-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
 
-  .iso-item {
-    flex: 1 1 calc(25% - 20px); /* 4 items per row with space adjustment */
-    max-width: calc(25% - 20px); /* Ensure items don't exceed this width */
-    box-sizing: border-box; /* Include padding/border in width calculations */
-	padding: 10px; /* Add padding on all sides */
-  }
+        .category-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            position: relative;
+        }
 
-  @media (max-width: 1200px) {
-    .iso-item {
-      flex: 1 1 calc(33.33% - 20px); /* 3 items per row for medium screens */
-      max-width: calc(33.33% - 20px);
-    }
-  }
+        .category-icon i {
+            font-size: 2.5rem;
+        }
 
-  @media (max-width: 768px) {
-    .iso-item {
-      flex: 1 1 calc(50% - 20px); /* 2 items per row for small screens */
-      max-width: calc(50% - 20px);
-    }
-  }
+        .category-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+            position: relative;
+        }
 
-  @media (max-width: 576px) {
-    .iso-item {
-      flex: 1 1 100%; /* 1 item per row for very small screens */
-      max-width: 100%;
-    }
-  }
-</style>
+        .category-description {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            position: relative;
+            min-height: 48px;
+        }
 
+        .category-stats {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            color: var(--text-light);
+            font-size: 0.9rem;
+            position: relative;
+        }
 
+        .ai-features {
+            padding: 5rem 0;
+            background: linear-gradient(45deg, #2C3E50, #3498DB);
+            color: white;
+        }
+
+        .feature-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-icon i {
+            font-size: 2.5rem;
+        }
+
+        .btn-custom {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+            color: white;
+        }
+
+        .navbar {
+            transition: background-color 0.3s ease;
+            padding: 1rem 0;
+        }
+
+        .navbar-brand img {
+            height: 30px;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-brand:hover img {
+            transform: scale(1.1);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .floating-image {
+            animation: float 6s ease-in-out infinite;
+            max-width: 80%;
+            margin: 0 auto;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
 </head>
 
 <body>
-	<div class="page-wrapper">
-		<header id="header">
-			<div class="container-lg">
-				<div class="header-left">
-					<div class="logo">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background: rgba(0,0,0,0.1); backdrop-filter: blur(10px);">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="assets/images/demos/demo-20/EZbuy.png" alt="EZbuy Logo" height="30">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#categories">Categories</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <?php if($username == 'Guest'): ?>
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-custom ml-2" href="users_area/user_login.php">Login</a>
+                        </li>
+                    <?php else: ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="users_area/dashboard.php"><?php echo $username; ?></a>
+                        </li>
+                    <?php endif; ?>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-						<a href="#"><img src="assets/images/demos/demo-20/EZbuy.png" alt="Molla Logo" width="100" height="25"></a>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center hero-content">
+                <div class="col-lg-6">
+                    <h1 class="hero-title">Welcome to the Future of Shopping</h1>
+                    <p class="hero-subtitle">Experience AI-powered personalized shopping across multiple niches</p>
+                    <a href="#categories" class="btn btn-custom btn-lg">Explore Stores</a>
+                </div>
+                <div class="col-lg-6">
+                    <img src="assets/images/demos-img/header_splash.jpg" alt="AI Shopping" class="img-fluid floating-image">
+                </div>
+            </div>
+        </div>
+    </section>
 
-					</div>
-				</div>
-				<div class="header-main">
-					<ul class="menu">
-						<li>
-							<a href="#" class="goto-demos">Hubs</a>
-						</li>
-						<li>
-							<a href="#" class="goto-features">Features</a>
-						</li>
-						<li>
-							<a href="#" class="goto-support">Support</a>
-						</li>
-					</ul>
-				</div>
-				<div class="header-right">
-					<a class="mobile-menu-toggler mr-0 mr-sm-5"><i class="icon-bars"></i></a>
-					<a href="admin_area/admins_login.php" class="btn btn-primary btn-outline"><i class="icon-shopping-car"></i>Admin</a>
-				</div>
-			</div>
-		</header>
-		<div id="main">
-			<section class="banner section-dark" style="background: #222;">
-				<img src="assets/images/demos-img/header_splash.jpg" alt="" width="1920" height="1120">
-				<div class="banner-text text-center">
-					<h1>EZbuy- AI Driven ECommerce Website</h1>
-					<h5 class="mb-5">EZbuy is simply the best choice for your new website. Your search for the best
-						solution is over, get your own copy and join thousands of happy customers.</h5>
-					<p class="mb-0"><a href="#" class="btn btn-primary btn-outline goto-demos">Explore Hubs<i
-								class="icon-long-arrow-alt-down"></i></a></p>
-				</div>
-			</section>
-			<section class="section section-demos text-center container-lg">
-				<h2>Shop by Category</h2>
-				<p> EZbuy features eight niches— allowing users to explore products tailored to their preferences effortlessly. <br>EZbuy store is one
-					of the best Multi-Purpose Website for your store.</p>
-				<div class="demo-filter menu">
-					<a href="#homepages" class="active">Home Pages</a>
-					<a href="#shoppages">Shop Pages</a>
-					<a href="#otherpages">Other Pages</a>
-				</div>
-				<div class="row demos">
+    <!-- Categories Section -->
+    <section id="categories" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Specialized Stores</h2>
+            <div class="row">
+                <?php foreach($categories as $index => $category): ?>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="category-card" 
+                             onclick="window.location.href='<?php echo $category['link']; ?>'"
+                             style="--bg-image: url('<?php echo $category['image']; ?>')">
+                            <div class="category-icon">
+                                <i class="<?php echo $category['icon']; ?>"></i>
+                            </div>
+                            <h3 class="category-title"><?php echo $category['title']; ?></h3>
+                            <p class="category-description"><?php echo $category['description']; ?></p>
+                            <div class="category-stats">
+                                <span><?php echo $category['products']; ?> Products</span>
+                                <span>⭐ <?php echo $category['rating']; ?></span>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </section>
 
-					<div class="iso-item homepages">
-						<a href="index-4.php" target="_blank">
-							<img src="assets/images/demos-img/lazy.png"
-								data-oi="assets/images/demos-img/electronics (2).jpg" width="500" height="385"
-								class="molla-lz" style="padding-top: 77%" alt="Electronic ">
-							<h5>Electronic </h5>
-						</a>
-					</div>
+    <!-- AI Features Section -->
+    <section id="features" class="ai-features">
+        <div class="container">
+            <h2 class="text-center mb-5">AI-Powered Shopping Experience</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="icon-cogs"></i>
+                        </div>
+                        <h3>Smart Recommendations</h3>
+                        <p>AI-driven product suggestions based on your preferences and browsing history</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="icon-search"></i>
+                        </div>
+                        <h3>Visual Search</h3>
+                        <p>Find products by uploading images or using our visual search technology</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="icon-envelope-open-text"></i>
+                        </div>
+                        <h3>AI Assistant</h3>
+                        <p>24/7 intelligent chatbot support for all your shopping needs</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-					<div class="iso-item homepages">
-						<a href="index-10.php" target="_blank">
-							<img src="assets/images/demos-img/lazy.png"
-								data-oi="assets/images/demos-img/shoe.jpg" width="500" height="385"
-								class="molla-lz" style="padding-top: 77%" alt="Shoes Store">
-							<h5>Shoes Store</h5>
-						</a>
-					</div>
-					<div class="iso-item homepages">
-						<a href="index-11.php" target="_blank">
-							<img src="assets/images/demos-img/lazy.png"
-								data-oi="assets/images/demos-img/bedroom.jpg" width="500" height="385"
-								class="molla-lz" style="padding-top: 77%" alt="Furniture 3">
-							<h5>Furniture <span>(Simple)</span></h5>
-						</a>
-					</div>
-					<div class="iso-item homepages">
-						<a href="index-12.php" target="_blank">
-							<img src="assets/images/demos-img/lazy.png"
-								data-oi="assets/images/demos-img/traditional.jpg" width="500" height="385"
-								class="molla-lz" style="padding-top: 77%" alt="Fashion 6 (Simple)">
-							<h5>Fashion <span>(Simple)</span></h5>
-						</a>
-					</div>
+    <!-- Footer -->
+    <?php include("./includes/footer.php"); ?>
 
-					<div class="iso-item homepages">
-						<a href="index-19.php" target="_blank">
-							<img src="assets/images/demos-img/lazy.png"
-								data-oi="assets/images/demos-img/game.jpg" width="500" height="385"
-								class="molla-lz" style="padding-top: 77%" alt="Game Store">
-							<h5>Game Store</h5>
-						</a>
-					</div>
-					<div class="iso-item homepages">
-						<a href="index-20.php" target="_blank">
-							<img src="assets/images/demos-img/lazy.png"
-								data-oi="assets/images/demos-img/books (1).jpg" width="500" height="385"
-								class="molla-lz" style="padding-top: 77%" alt="Book Store">
-							<h5>Book Store</h5>
-						</a>
-					</div>
-					<div class="iso-item homepages">
-						<a href="index-21.php" target="_blank">
-							<img src="assets/images/demos-img/lazy.png"
-								data-oi="assets/images/demos-img/sport.jpg" width="500" height="385"
-								class="molla-lz" style="padding-top: 77%" alt="Furniture 2">
-							<h5>Sport Store</h5>
-						</a>
-					</div>
-					<div class="iso-item homepages">
-						<a href="index-24.php" target="_blank">
-							<img src="assets/images/demos-img/lazy.png"
-								data-oi="assets/images/demos-img/extreme.jpg" width="500" height="385"
-								class="molla-lz" style="padding-top: 77%" alt="Furniture 2">
-							<h5>Extreme Sport Store</h5>
-						</a>
-					</div>
+    <!-- Scripts -->
+    <script src="lib/jquery/jquery.min.js"></script>
+    <script src="lib/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="lib/jquery.appear/jquery.appear.min.js"></script>
+    <script src="lib/jquery.lazyload/jquery.lazyload.min.js"></script>
+    <script src="assets/main.js"></script>
+    
+    <script>
+        // Keep the JavaScript unchanged
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
 
-					
-					<div class="iso-item shoppages">
-						<a href="users_area/cart.php" target="_blank">
-							<img src="assets/images/demos-img/lazy.png"
-								data-oi="assets/images/demos-img/29_shop_shopping_cart.jpg" width="500" height="385"
-								class="molla-lz" style="padding-top: 77%" alt="Shopping Cart">
-							<h5>Shopping Cart</h5>
-						</a>
-					</div>
-					<div class="iso-item shoppages">
-						<a href="users_area/checkout.php" target="_blank">
-							<img src="assets/images/demos-img/lazy.png"
-								data-oi="assets/images/demos-img/30_shop_checkout.jpg" width="500" height="385"
-								class="molla-lz" style="padding-top: 77%" alt="Checkout">
-							<h5>Checkout</h5>
-						</a>
-					</div>
-					<div class="iso-item shoppages">
-						<a href="users_area/wishlist.php" target="_blank">
-							<img src="assets/images/demos-img/lazy.png"
-								data-oi="assets/images/demos-img/31_shop_wishlist.jpg" width="500" height="385"
-								class="molla-lz" style="padding-top: 77%" alt="Wishlist">
-							<h5>Wishlist</h5>
-						</a>
-					</div>
-					<div class="iso-item shoppages">
-						<a href="users_area/dashboard.php" target="_blank">
-							<img src="assets/images/demos-img/lazy.png"
-								data-oi="assets/images/demos-img/shop_my_account.jpg" width="500" height="385"
-								class="molla-lz" style="padding-top: 77%" alt="My Account">
-							<h5>My Account</h5>
-						</a>
-					</div>
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) {
+                document.querySelector('.navbar').style.background = 'rgba(0,0,0,0.8)';
+            } else {
+                document.querySelector('.navbar').style.background = 'rgba(0,0,0,0.1)';
+            }
+        });
 
-					<div class="iso-item otherpages">
-						<a href="about.php" target="_blank">
-							<img src="assets/images/demos-img/lazy.png"
-								data-oi="assets/images/demos-img/40_pages_aboutus.jpg" width="500" height="385"
-								class="molla-lz" style="padding-top: 77%" alt="About Us">
-							<h5>About Us</h5>
-						</a>
-					</div>
-					
-					<div class="iso-item otherpages">
-						<a href="contact-2.php" target="_blank">
-							<img src="assets/images/demos-img/lazy.png"
-								data-oi="assets/images/demos-img/43_pages_contactus_2.jpg" width="500" height="385"
-								class="molla-lz" style="padding-top: 77%" alt="Contact us 2">
-							<h5>Contact us 2</h5>
-						</a>
-					</div>
-					<div class="iso-item otherpages">
-						<a href="login.php" target="_blank">
-							<img src="assets/images/demos-img/lazy.png"
-								data-oi="assets/images/demos-img/44_pages_login.jpg" width="500" height="385"
-								class="molla-lz" style="padding-top: 77%" alt="Login page">
-							<h5>Login page</h5>
-						</a>
-					</div>
-					<div class="iso-item otherpages">
-						<a href="faq.php" target="_blank">
-							<img src="assets/images/demos-img/lazy.png"
-								data-oi="assets/images/demos-img/45_pages_FAQ.jpg" width="500" height="385"
-								class="molla-lz" style="padding-top: 77%" alt="F.A.Q page">
-							<h5>F.A.Q page</h5>
-						</a>
-					</div>
-					
-				</div>
-				<h5 class="text-load-more">More New Hubs Coming Soon ...</h5>
-			</section>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
 
-			<section class="section section-features">
-				<h2 class="text-center">Our Core Features</h2>
-				<p class="text-center">Powerful features and inclusions, which makes EZbuy standout,<br>easily
-					customizable and scalable.</p>
-				<div class="divider-line">
-					<div class="container-lg">
-						<div class="overflow-hidden">
-							<div class="row">
-								<div class="col-sm-6 col-lg-3">
-									<div class="icon-box">
-										<i class="icon-laptop"></i>
-										<h4>Fully Responsive Design Layouts</h4>
-										<p>The Template looks good and sharp with all kind of devices and screen sizes.
-											which increase the layout flexibility.</p>
-									</div>
-								</div>
-								<div class="col-sm-6 col-lg-3">
-									<div class="icon-box">
-										<i class="icon-code"></i>
-										<h4>Clean And Professional Codes</h4>
-										<p>The Template is ready with clean and well structured coding style by the
-											Professional developers team.</p>
-									</div>
-								</div>
-								<div class="col-sm-6 col-lg-3">
-									<div class="icon-box">
-										<i class="icon-fill-drip"></i>
-										<h4>Creative And Modern Design Layout</h4>
-										<p>Every single section is created with the passion and years of experience in
-											the website development.</p>
-									</div>
-								</div>
-								<div class="col-sm-6 col-lg-3">
-									<div class="icon-box">
-										<i class="icon-align-left"></i>
-										<h4>Perfect Documentations</h4>
-										<p>There are lots of creative section for you. So we have create a documentation
-											that will helpful to understand the flow.</p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="container-lg">
-						<div class="overflow-hidden">
-							<div class="row">
-								<div class="col-sm-6 col-lg-3">
-									<div class="icon-box">
-										<i class="icon-th"></i>
-										<h4>Build With Bootstrap</h4>
-										<p>This Template is created with latest bootstrap version which used its new
-											classes and tags.</p>
-									</div>
-								</div>
-								<div class="col-sm-6 col-lg-3">
-									<div class="icon-box">
-										<i class="icon-envelope-open-text"></i>
-										<h4>Working Contact Form</h4>
-										<p>There are different different styled form layouts that used to get in touch
-											with you.</p>
-									</div>
-								</div>
-								<div class="col-sm-6 col-lg-3">
-									<div class="icon-box">
-										<i class="icon-cogs"></i>
-										<h4>Easily Customizable</h4>
-										<p>The design is fully customizable. Unlimited color styles, all 500+ Google
-											fonts, and etc!</p>
-									</div>
-								</div>
-								<div class="col-sm-6 col-lg-3">
-									<div class="icon-box">
-										<i class="icon-html5" style="font-size: 2.4rem;""></i>
-											<h4>Valid HTML 5 And CSS 3</h4>
-											<p>We have used latest HTML and Css Coding style that makes the pages in well working state.</p>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</section>
-
-			<section class="section section-support section-dark">
-				<div class="container molla-lz text-center" data-oi="assets/images/demos-img/support_bg.jpg">
-					<h2>Outstaning Support Center<span class="fw-400">+</span>Extensive Documentation</h2>
-					<p>Support is one of our priorities, our dedicatated support<br>will be waiting for you if you have
-						any questions.</p>
-				</div>
-			</section>
-			<section class="section section-light section-ready container text-center">
-				<h2 class="mb-3">EZbuy Is Ready To Use. Get It Now!</h2>
-				<p>DON'T FORGET TO APPRECIATE OUR WORK. RATE US NOW!</p>
-				<div class="star-rating mb-4 pb-3">
-					<i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i
-						class="icon-star"></i><i class="icon-star"></i>
-				</div>
-				<p><a class="btn btn-primary btn-outline" href="#"><i class="icon-shopping-cart"></i>Buy EZbuy</a></p>
-			</section>
-		</div>
-		<footer id="footer" class="container-lg">
-			<div class="row">
-				<div class="col-md-6 text-center text-md-left mb-4 mb-md-0">
-					
-				</div>
-				<div class="col-md-6 text-center text-md-right social-icons">
-					<label class="mr-3">Social Media</label>
-					<a href="#" title="Facebook"><i class="icon-facebook-f"></i></a>
-					<a href="#" title="Twitter"><i class="icon-twitter"></i></a>
-					<a href="#" title="Instagram"><i class="icon-instagram"></i></a>
-					<a href="#" title="Youtube"><i class="icon-youtube"></i></a>
-					<a href="#" title="Pinterest"><i class="icon-pinterest"></i></a>
-				</div>
-			</div>
-		</footer>
-	</div>
-
-	<!-- Mobile Menu -->
-	<div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
-
-	<div class="mobile-menu-container">
-		<div class="mobile-menu-wrapper">
-			<span class="mobile-menu-close"><i class="icon-close"></i></span>
-
-			<nav class="mobile-nav">
-				<ul class="mobile-menu">
-					<li>
-						<a href="#" class="goto-demos">Hubs</a>
-					</li>
-					<li>
-						<a href="#">Features</a>
-					</li>
-					<li>
-						<a href="#">Support</a>
-					</li>
-				</ul>
-			</nav><!-- End .mobile-nav -->
-
-			<div class="d-flex justify-content-center social-icons">
-				<a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
-				<a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
-				<a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
-				<a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
-			</div><!-- End .social-icons -->
-		</div><!-- End .mobile-menu-wrapper -->
-	</div><!-- End .mobile-menu-container -->
-
-	<!-- Vendor -->
-	<script src="lib/jquery/jquery.min.js"></script>
-	<script src="lib/jquery.appear/jquery.appear.min.js"></script>
-	<!--<script src="lib/popper/umd/popper.min.js"></script>-->
-	<script src="lib/jquery.lazyload/jquery.lazyload.min.js"></script>
-	<script src="lib/isotope/jquery.isotope.min.js"></script>
-
-	<!-- Theme Base, Components and Settings -->
-	<script src="assets/main.js"></script>
+        document.querySelectorAll('.category-card').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
 </body>
-
-<!-- molla/index.html  22 Nov 2019 09:54:50 GMT -->
-<!-- Chat Icon with New Logo -->
-<div id="chat-icon" onclick="toggleChat()">
-    💠
-</div>
-
-<!-- Chat Window -->
-
-
 </html>

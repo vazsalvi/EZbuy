@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Image-based Image Search Engine</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+        <style>
+            .img-container {
+                margin: 10px;
+                display: inline-block;
+            }
+            .img-container img {
+                max-width: 200px;
+                max-height: 200px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1 class="mt-5 mb-4">Image Search Engine</h1>
+            <form method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="query_img">Select a file:</label>
+                    <input type="file" class="form-control-file" id="query_img" name="query_img" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+
+            {% if query_path %}
+            <h2 class="mt-4">Query Image</h2>
+            <div class="img-container">
+                <img src="{{ query_path }}" class="img-fluid">
+            </div>
+            {% endif %}
+
+            {% if scores %}
+            <h2 class="mt-4">Results</h2>
+            {% for score in scores %}
+            <div class="img-container">
+                <figure class="figure">
+                    <img src="{{ score[1] }}" class="figure-img img-fluid">
+                    <figcaption class="figure-caption text-center">Score: {{ score[0]|round(2) }}</figcaption>
+                </figure>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </body>
+</html>

@@ -1,528 +1,655 @@
 <?php
-// Start the session
 session_start();
+include("./includes/connect.php");
+include("./functions/common_function.php");
 
+$username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
+$user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0;
 
+// Get Extreme Sports category ID
+$categories = $con->query('categories', ['category_title' => 'Extreme Sports']);
+$category_id = !empty($categories) ? $categories[0]['id'] : 8;
 
-// Now, you can use $_SESSION['username'] for the logged-in user's username
-echo "Welcome, " . $_SESSION['username'];  // Display the username
+// Fetch data
+$featured_products = getFeaturedProducts($con, 8);
+$hot_deals = getHotDeals($con, 4);
+$new_arrivals = getNewArrivals($con, 8);
+$top_rated = getTopRatedProducts($con, 4);
+$brands = getBrandsByCategory($con, $category_id);
+
+// Adventure categories
+$adventures = [
+    [
+        'id' => 'skateboarding',
+        'name' => 'Skateboarding',
+        'icon' => 'fas fa-skateboard',
+        'image' => 'https://source.unsplash.com/800x600/?skateboarding',
+        'gear' => ['Decks', 'Trucks', 'Wheels', 'Protective Gear'],
+        'skill_levels' => ['Beginner', 'Intermediate', 'Advanced']
+    ],
+    [
+        'id' => 'surfing',
+        'name' => 'Surfing',
+        'icon' => 'fas fa-water',
+        'image' => 'https://source.unsplash.com/800x600/?surfing',
+        'gear' => ['Surfboards', 'Wetsuits', 'Leashes', 'Wax'],
+        'skill_levels' => ['Beginner', 'Intermediate', 'Pro']
+    ],
+    [
+        'id' => 'rockclimbing',
+        'name' => 'Rock Climbing',
+        'icon' => 'fas fa-mountain',
+        'image' => 'https://source.unsplash.com/800x600/?rock-climbing',
+        'gear' => ['Ropes', 'Harnesses', 'Carabiners', 'Shoes'],
+        'skill_levels' => ['Indoor', 'Outdoor', 'Advanced']
+    ],
+    [
+        'id' => 'snowboarding',
+        'name' => 'Snowboarding',
+        'icon' => 'fas fa-snowflake',
+        'image' => 'https://source.unsplash.com/800x600/?snowboarding',
+        'gear' => ['Boards', 'Boots', 'Bindings', 'Outerwear'],
+        'skill_levels' => ['Beginner', 'Intermediate', 'Expert']
+    ]
+];
+
+// Safety guides
+$safety_guides = [
+    [
+        'title' => 'Skateboarding Safety',
+        'image' => 'https://source.unsplash.com/800x600/?skateboard-safety',
+        'essential_gear' => ['Helmet', 'Knee Pads', 'Elbow Pads', 'Wrist Guards'],
+        'tips' => [
+            'Always wear protective gear',
+            'Check equipment before riding',
+            'Start in safe areas',
+            'Learn proper falling techniques'
+        ]
+    ],
+    [
+        'title' => 'Surfing Safety',
+        'image' => 'https://source.unsplash.com/800x600/?surf-safety',
+        'essential_gear' => ['Wetsuit', 'Leash', 'Sun Protection', 'First Aid Kit'],
+        'tips' => [
+            'Check weather conditions',
+            'Never surf alone',
+            'Know your limits',
+            'Learn about rip currents'
+        ]
+    ],
+    [
+        'title' => 'Climbing Safety',
+        'image' => 'https://source.unsplash.com/800x600/?climbing-safety',
+        'essential_gear' => ['Helmet', 'Harness', 'Ropes', 'Carabiners'],
+        'tips' => [
+            'Double-check equipment',
+            'Use proper belay techniques',
+            'Communicate with partner',
+            'Know rescue procedures'
+        ]
+    ]
+];
+
+// Adventure locations
+$locations = [
+    [
+        'name' => 'Skate Parks',
+        'type' => 'Skateboarding',
+        'image' => 'https://source.unsplash.com/800x600/?skatepark',
+        'features' => ['Ramps', 'Rails', 'Half-pipe', 'Street Section'],
+        'difficulty' => 'Various',
+        'recommended_gear' => ['Complete Skateboard', 'Safety Gear', 'Spare Parts']
+    ],
+    [
+        'name' => 'Surf Spots',
+        'type' => 'Surfing',
+        'image' => 'https://source.unsplash.com/800x600/?surf-spot',
+        'features' => ['Beach Break', 'Point Break', 'Reef Break'],
+        'difficulty' => 'Intermediate',
+        'recommended_gear' => ['Surfboard', 'Wetsuit', 'Leash']
+    ],
+    [
+        'name' => 'Climbing Routes',
+        'type' => 'Rock Climbing',
+        'image' => 'https://source.unsplash.com/800x600/?climbing-route',
+        'features' => ['Sport Routes', 'Bouldering', 'Top Rope'],
+        'difficulty' => 'Various',
+        'recommended_gear' => ['Ropes', 'Harness', 'Climbing Shoes']
+    ]
+];
+
+// Skill level guides
+$skill_guides = [
+    [
+        'level' => 'Beginner',
+        'description' => 'Just starting out? Here\'s what you need',
+        'recommended_gear' => [
+            'Basic protective equipment',
+            'Entry-level gear',
+            'Learning tools'
+        ],
+        'tips' => [
+            'Start with the basics',
+            'Focus on safety',
+            'Take lessons',
+            'Practice regularly'
+        ]
+    ],
+    [
+        'level' => 'Intermediate',
+        'description' => 'Ready to take it to the next level',
+        'recommended_gear' => [
+            'Quality equipment',
+            'Specialized gear',
+            'Performance accessories'
+        ],
+        'tips' => [
+            'Master advanced techniques',
+            'Upgrade equipment',
+            'Join communities',
+            'Challenge yourself'
+        ]
+    ],
+    [
+        'level' => 'Advanced',
+        'description' => 'For the serious enthusiast',
+        'recommended_gear' => [
+            'Professional equipment',
+            'High-performance gear',
+            'Specialized tools'
+        ],
+        'tips' => [
+            'Focus on style',
+            'Compete in events',
+            'Mentor others',
+            'Push boundaries safely'
+        ]
+    ]
+];
 ?>
 
-<!-- connection -->
-<?php
-include('./includes/connect.php');
-include('./functions/common_function.php');
-include('./functions/10_function.php');
-
-// $user_ip = getUserIP();
-// echo "User IP Address: " . $user_ip;
-?>
-<!-- cart function call -->
-<?php
-         cart();
-         ?>
-<?php include 'chat2.php'; ?>
 <!DOCTYPE html>
-<html>
-<link rel="stylesheet" href="style.css">
-<script src="script.js" defer></script>
-<!-- molla/index-24.html  22 Nov 2019 10:02:28 GMT -->
+<html lang="en">
 <head>
-	<title>Molla - Bootstrap eCommerce Template</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <meta name="keywords" content="HTML5 Template">
-    <meta name="description" content="Molla - Bootstrap eCommerce Template">
-    <meta name="author" content="p-themes">
+    <title>EZbuy - Extreme Sports</title>
+    <meta name="description" content="Your ultimate extreme sports gear destination">
+    
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="assets/images/icons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/images/icons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/images/icons/favicon-16x16.png">
-    <link rel="manifest" href="assets/images/icons/site.html">
-    <link rel="mask-icon" href="assets/images/icons/safari-pinned-tab.svg" color="#666666">
-    <link rel="shortcut icon" href="assets/images/icons/favicon.ico">
-    <meta name="apple-mobile-web-app-title" content="Molla">
-    <meta name="application-name" content="Molla">
-    <meta name="msapplication-TileColor" content="#cc9966">
-    <meta name="msapplication-config" content="assets/images/icons/browserconfig.xml">
-    <meta name="theme-color" content="#ffffff">
-    <!-- Plugins CSS File -->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/plugins/owl-carousel/owl.carousel.css">
-    <link rel="stylesheet" href="assets/css/plugins/jquery.countdown.css">
-    <link rel="stylesheet" href="assets/css/plugins/magnific-popup/magnific-popup.css">
-    <!-- Main CSS File -->
+    
+    <!-- CSS Files -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/skins/skin-demo-24.css">
     <link rel="stylesheet" href="assets/css/demos/demo-24.css">
+    <link rel="stylesheet" href="assets/css/chatbot.css">
 
+    <style>
+        body {
+            background: #121212;
+            color: white;
+        }
+
+        .adventure-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            background: #1a1a1a;
+            transition: transform 0.3s ease;
+        }
+
+        .adventure-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .adventure-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            opacity: 0.8;
+        }
+
+        .adventure-content {
+            padding: 20px;
+            color: white;
+        }
+
+        .adventure-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .gear-list {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .gear-list li {
+            background: #333;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            color: white;
+        }
+
+        .skill-level {
+            display: inline-block;
+            padding: 5px 15px;
+            margin: 5px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .safety-card {
+            background: #1a1a1a;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .safety-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .safety-content {
+            padding: 20px;
+            color: white;
+        }
+
+        .safety-tips {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0;
+        }
+
+        .safety-tips li {
+            padding: 8px 0;
+            border-bottom: 1px solid #333;
+        }
+
+        .safety-tips li:last-child {
+            border-bottom: none;
+        }
+
+        .location-card {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .location-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .location-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            color: white;
+        }
+
+        .skill-guide-card {
+            background: #1a1a1a;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .skill-guide-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .skill-tips {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0;
+        }
+
+        .skill-tips li {
+            padding: 5px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .skill-tips li:before {
+            content: '→';
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+
+        .section-title {
+            color: white;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .product {
+            background: #1a1a1a;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .product-title a {
+            color: white;
+        }
+
+        .product-price {
+            color: var(--primary-color);
+        }
+    </style>
 </head>
+
 <body>
- <!-- //include header// -->
- <?php include("./includes/header.php")?>
-	<div class="mb-5"></div><!-- End .mb-5 -->
-	<div class="page-wrapper">
+    <div class="page-wrapper">
+        <?php include("./includes/header.php")?>
 
-
-		
-		<main class="main">
-		<div class="background" style="background-image: url(assets/images/demos/demo-24/slider/23back-11.jpg);">
-			
-	        <div class="slider">
-	        	<div class="intro">
-	        		<div class="title">
-	        			<h3>Premium Outdoor Gear & Clothing</h3>
-	        		</div>
-	        		<div class="content">
-	        			<h4><i>Our New Collections 2019</i></h4>
-	        			<h5>Ski & Snowboard</h5>
-	        		</div>
-	        		<div class="action">
-	        			<a href="category.html">discover now</a>
-	        		</div>
-	        	</div>
-	        	<img src="assets/images/demos/demo-24/slider/back-2.png" alt="Outdoor Gear">
-	        </div>
-		</div>
-			<section class="logos">
-				<div class="container">
-					<hr class="mb-4">
-					
-				</div>
-            </section><!-- End .container -->
-
-            <section class="banners center">
-            	<div class="container">
-            		<div class="row">
-            			<div class="banner col-lg-4 col-md-6 col-sm-6">
-	            			<img src="assets/images/demos/demo-24/banners/banner-1.jpg">
-	            			<div class="intro">
-	            				<div class="title">
-	            					<h3>Online mega deal</h3>
-	            				</div>
-	            				<div class="content">
-	            					<h4>Camping Gear<br>& Accessories</h4>
-	            				</div>
-	            				<div class="action">
-	            					<a href="category.html">Shop Now</a>
-	            				</div>
-	            			</div>
-	            		</div>
-
-	            		<div class="banner percent col-lg-4 col-md-6 col-sm-6">
-	            			<img src="assets/images/demos/demo-24/banners/banner-2.jpg">
-	            			<div class="intro">
-	            				<div class="title">
-	            					<h3>Summer</h3>
-	            					<h4>Clearance</h4>
-	            				</div>
-	            				<div class="img-percent">
-	            					<img src="assets/images/demos/demo-24/banners/percent.png" width="190" height="75">
-	            				</div>
-	            				<div class="content">
-	            					<h4>* Donec sit amet vulputate<br> velit.Aenean tempus nisl</h4>
-	            				</div>
-	            				<div class="action">
-	            					<a href="category.html">Discover Now</a>
-	            				</div>
-	            			</div>
-	            		</div>
-
-	            		<div class="banner col-lg-4  col-md-6 col-sm-6">
-	            			<img src="assets/images/demos/demo-24/banners/banner-3.jpg">
-	            			<div class="intro">
-	            				<div class="title">
-	            					<h3>Lightning Deals</h3>
-	            				</div>
-	            				<div class="content">
-	            					<h4>Sports &<br>Outdoors</h4>
-	            				</div>
-	            				<div class="action">
-	            					<a href="category.html">Shop Now</a>
-	            				</div>
-	            			</div>
-	            		</div>
-            		</div>
-            	</div>
-            </section>
-
-
-
-			
-			
-
-            <section class="best-sellers">
-            	<div class="container">
-            		<div class="heading">
-	            		<p class="heading-cat">favourite from every category</p>
-	            		<h3 class="heading-title">Best Sellers</h3>
-	            	</div>
-		            <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow text-center" data-toggle="owl" 
-                    data-owl-options='{
-                        "nav": true, 
-                        "dots": false,
-                        "margin": 30,
-                        "loop": false,
-                        "responsive": {
-                            "0": {
-                                "items":2
-                            },
-                            "768": {
-                            	"items":3
-                            },
-                            "992": {
-                                "items":3
-                            },
-                            "1200": {
-                            	"items":4
-                            }
+        <main class="main">
+            <!-- Hero Section -->
+            <div class="intro-slider-container">
+                <div class="owl-carousel owl-simple owl-light owl-nav-inside" data-toggle="owl" data-owl-options='{
+                    "nav": false,
+                    "dots": true,
+                    "responsive": {
+                        "992": {
+                            "nav": true
                         }
-                    }'> 
-					
-				</div>
-				<div class="row justify-content-center">
-            <?php
-            get_extreme_sport_products();
-            get_unique_categories();
-            get_unique_brands()
-            ?>
-
-        </div><!-- End .row -->
-					
-					</div>
-        
-					
-        
-    
-        
-	                    
-	                
-            </section>
-
-            <section class="banners stretch mt-2">
-            	<div class="container">
-	            <div class="row">
-	            	<div class="col-lg-6 col-md-6 col-12 banner-lg">
-	        			<img src="assets/images/demos/demo-24/banners/banner-4.jpg">
-	        			<div class="intro">
-	        				<div class="title">
-	        					<h3><i>Trending</i></h3>
-	        				</div>
-	        				<div class="content">
-	        					<h4>Camping & Hiking</h4>
-	        					<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.<br>Donec odio. Quisque volutpat mattis eros.</p>
-	        				</div>
-	        				<div class="action">
-	        					<a href="category.html">Discover Now</a>
-	        				</div>
-	        			</div>
-	        		</div>
-	        		<div class="col-lg-6 col-md-6 col-12 banner-sm-div">
-	        			<div class="col-lg-6 col-md-6 col-sm-6 banner-sm font-black">
-	        				<img src="assets/images/demos/demo-24/banners/banner-5.jpg">
-	            			<div class="intro">
-	            				<div class="title">
-	            					<h3>Women's</h3>
-	            				</div>
-	            				<div class="content">
-	            					<h4>Active &<br> Fitness</h4>
-	            				</div>
-	            				<div class="action">
-	            					<a href="category.html">Shop Now</a>
-	            				</div>
-	            			</div>
-	        			</div>
-	        			<div class="col-lg-6 col-md-6 col-sm-6 banner-sm font-white">
-	        				<img src="assets/images/demos/demo-24/banners/banner-6.jpg">
-	            			<div class="intro">
-	            				<div class="title">
-	            					<h3>New Arrivals</h3>
-	            				</div>
-	            				<div class="content">
-	            					<h4>Deepest discount<br> of the season</h4>
-	            				</div>
-	            				<div class="action">
-	            					<a href="category.html">Shop Now</a>
-	            				</div>
-	            			</div>
-	        			</div>
-	        			<div class="col-lg-6 col-md-6 col-sm-6 banner-sm font-white">
-	        				<img src="assets/images/demos/demo-24/banners/banner-7.jpg">
-	            			<div class="intro">
-	            				<div class="title">
-	            					<h3>men's</h3>
-	            				</div>
-	            				<div class="content">
-	            					<h4>Surf Gear &<br>Accessories</h4>
-	            				</div>
-	            				<div class="action">
-	            					<a href="category.html">Shop Now</a>
-	            				</div>
-	            			</div>
-	        			</div>
-	        			<div class="col-lg-6 col-md-6 col-sm-6 banner-sm font-black">
-	        				<img src="assets/images/demos/demo-24/banners/banner-8.jpg">
-	            			<div class="intro">
-	            				<div class="title">
-	            					<h3>men's</h3>
-	            				</div>
-	            				<div class="content">
-	            					<h4>outerwear<br>collection</h4>
-	            				</div>
-	            				<div class="action">
-	            					<a href="category.html">Shop Now</a>
-	            				</div>
-	            			</div>
-	        			</div>
-	        		</div>
-	            </div>
-	            </div>
-            </section>
-
-            <section class="featured-products">
-            	<div class="container">
-            		<div class="heading">
-	            		<p class="heading-cat">Featured Products </p>
-	            		<h3 class="heading-title">Featured Products</h3>
-	            	</div>
-	            	<div class="row">
-					
-        <div class="row justify-content-center">
-            <?php
-            get_extreme_sport_products();
-            get_unique_categories();
-            get_unique_brands()
-            ?>
-
-        </div><!-- End .row -->
-	            		
-	            	
-	            </div>
-            </section>
-            <section class="video-banner">
-            	<img src="assets/images/demos/demo-24/video-banner/banner.jpg">
-
-            	<div class="intro video">
-            		<div class="title">
-            			<h3><i>Spring / Summer</i></h3>
-            		</div>
-            		<div class="content">
-            			<h4>New & Stylish<br>Collection 2019</h4>
-            		</div>
-            		<div class="action">
-            			<a href="https://www.youtube.com/watch?v=YbJOTdZBX1g" class="btn-iframe"><i class="icon-play"></i></a>
-            		</div>
-            	</div>
-            </section>
-
-		</main>
-
-		
-			
-        <!-- //include footer// -->
-        <?php include("./includes/footer.php")?>
-		
-    </div>
-
-    <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
-
-	<div class="mobile-menu-overlay">
-    </div><!-- End .mobil-menu-overlay -->
-    <div class="mobile-menu-container mobile-menu-light">
-        <div class="mobile-menu-wrapper">
-            <span class="mobile-menu-close"><i class="icon-close"></i></span>
-
-            <form action="#" method="get" class="mobile-search">
-                <label for="mobile-search" class="sr-only">Search</label>
-                <input type="search" class="form-control" name="mobile-search" id="mobile-search" placeholder="Search in..." required>
-                <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
-            </form>
-            
-            <nav class="mobile-nav">
-                <ul class="mobile-menu">
-                    <li class="active">
-                        <a href="index.html">HOME</a>
-
-                        <ul>
-                            <li><a href="index-1.html">01 - furniture store</a></li>
-                            <li><a href="index-2.html">02 - furniture store</a></li>
-                            <li><a href="index-3.html">03 - electronic store</a></li>
-                            <li><a href="index-4.html">04 - electronic store</a></li>
-                            <li><a href="index-5.html">05 - fashion store</a></li>
-                            <li><a href="index-6.html">06 - fashion store</a></li>
-                            <li><a href="index-7.html">07 - fashion store</a></li>
-                            <li><a href="index-8.html">08 - fashion store</a></li>
-                            <li><a href="index-9.html">09 - fashion store</a></li>
-                            <li><a href="index-10.html">10 - shoes store</a></li>
-                            <li><a href="index-11.html">11 - furniture simple store</a></li>
-                            <li><a href="index-12.html">12 - fashion simple store</a></li>
-                            <li><a href="index-13.html">13 - market</a></li>
-                            <li><a href="index-14.html">14 - market fullwidth</a></li>
-                            <li><a href="index-15.html">15 - lookbook 1</a></li>
-                            <li><a href="index-16.html">16 - lookbook 2</a></li>
-                            <li><a href="index-17.html">17 - fashion store</a></li>
-                            <li><a href="index-18.html">18 - fashion store (with sidebar)</a></li>
-                            <li><a href="index-19.html">19 - games store</a></li>
-                            <li><a href="index-20.html">20 - book store</a></li>
-                            <li><a href="index-21.html">21 - sport store</a></li>
-                            <li><a href="index-22.html">22 - tools store</a></li>
-                            <li><a href="index-23.html">23 - fashion left navigation store</a></li>
-                            <li><a href="index-24.html">24 - extreme sport store</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="category.html">SHOP</a>
-                        <ul>
-                            <li><a href="category-list.html">Shop List</a></li>
-                            <li><a href="category-2cols.html">Shop Grid 2 Columns</a></li>
-                            <li><a href="category.html">Shop Grid 3 Columns</a></li>
-                            <li><a href="category-4cols.html">Shop Grid 4 Columns</a></li>
-                            <li><a href="category-boxed.html"><span>Shop Boxed No Sidebar<span class="tip tip-hot">Hot</span></span></a></li>
-                            <li><a href="category-fullwidth.html">Shop Fullwidth No Sidebar</a></li>
-                            <li><a href="product-category-boxed.html">Product Category Boxed</a></li>
-                            <li><a href="product-category-fullwidth.html"><span>Product Category Fullwidth<span class="tip tip-new">New</span></span></a></li>
-                            <li><a href="cart.html">Cart</a></li>
-                            <li><a href="checkout.html">Checkout</a></li>
-                            <li><a href="wishlist.html">Wishlist</a></li>
-                            <li><a href="#">Lookbook</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="about.html">ABOUT US</a>
-
-                        <ul>
-                            <li><a href="about.html">About 01</a></li>
-                            <li><a href="about-2.html">About 02</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="blog.html">Blog</a>
-
-                        <ul>
-                            <li><a href="blog.html">Classic</a></li>
-                            <li><a href="blog-listing.html">Listing</a></li>
-                            <li>
-                                <a href="#">Grid</a>
-                                <ul>
-                                    <li><a href="blog-grid-2cols.html">Grid 2 columns</a></li>
-                                    <li><a href="blog-grid-3cols.html">Grid 3 columns</a></li>
-                                    <li><a href="blog-grid-4cols.html">Grid 4 columns</a></li>
-                                    <li><a href="blog-grid-sidebar.html">Grid sidebar</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#">Masonry</a>
-                                <ul>
-                                    <li><a href="blog-masonry-2cols.html">Masonry 2 columns</a></li>
-                                    <li><a href="blog-masonry-3cols.html">Masonry 3 columns</a></li>
-                                    <li><a href="blog-masonry-4cols.html">Masonry 4 columns</a></li>
-                                    <li><a href="blog-masonry-sidebar.html">Masonry sidebar</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#">Mask</a>
-                                <ul>
-                                    <li><a href="blog-mask-grid.html">Blog mask grid</a></li>
-                                    <li><a href="blog-mask-masonry.html">Blog mask masonry</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#">Single Post</a>
-                                <ul>
-                                    <li><a href="single.html">Default with sidebar</a></li>
-                                    <li><a href="single-fullwidth.html">Fullwidth no sidebar</a></li>
-                                    <li><a href="single-fullwidth-sidebar.html">Fullwidth with sidebar</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="contact.html">CONTACTS</a>
-
-                        <ul>
-                            <li><a href="contact.html">Contact 01</a></li>
-                            <li><a href="contact-2.html">Contact 02</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#">BUY EZbuy</a>
-                        <ul>
-                            <li><a href="elements-products.html">Products</a></li>
-                            <li><a href="elements-typography.html">Typography</a></li>
-                            <li><a href="elements-titles.html">Titles</a></li>
-                            <li><a href="elements-banners.html">Banners</a></li>
-                            <li><a href="elements-product-category.html">Product Category</a></li>
-                            <li><a href="elements-video-banners.html">Video Banners</a></li>
-                            <li><a href="elements-buttons.html">Buttons</a></li>
-                            <li><a href="elements-accordions.html">Accordions</a></li>
-                            <li><a href="elements-tabs.html">Tabs</a></li>
-                            <li><a href="elements-testimonials.html">Testimonials</a></li>
-                            <li><a href="elements-blog-posts.html">Blog Posts</a></li>
-                            <li><a href="elements-portfolio.html">Portfolio</a></li>
-                            <li><a href="elements-cta.html">Call to Action</a></li>
-                            <li><a href="elements-icon-boxes.html">Icon Boxes</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </nav><!-- End .mobile-nav -->
-
-            <div class="social-icons">
-                <a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
-                <a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
-                <a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
-                <a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
-            </div><!-- End .social-icons -->
-        </div><!-- End .mobile-menu-wrapper -->
-    </div><!-- End .mobile-menu-container -->
-
-    <div class="container newsletter-popup-container mfp-hide" id="newsletter-popup-form">
-        <div class="row justify-content-center">
-            <div class="col-10">
-                <div class="row no-gutters bg-white newsletter-popup-content">
-                    <div class="col-xl-3-5col col-lg-7 banner-content-wrap">
-                        <div class="banner-content text-center">
-                            <img src="assets/images/popup/newsletter/EZbuy.png" class="logo" alt="logo" width="60" height="15">
-                            <h2 class="banner-title">get <span>25<light>%</light></span> off</h2>
-                            <p>Subscribe to the EZbuy eCommerce newsletter to receive timely updates from your favorite products.</p>
-                            <form action="#">
-                                <div class="input-group input-group-round">
-                                    <input type="email" class="form-control form-control-white" placeholder="Your Email Address" aria-label="Email Adress" required>
-                                    <div class="input-group-append">
-                                        <button class="btn" type="submit"><span>go</span></button>
-                                    </div><!-- .End .input-group-append -->
-                                </div><!-- .End .input-group -->
-                            </form>
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="register-policy-2" required>
-                                <label class="custom-control-label" for="register-policy-2">Do not show this popup again</label>
-                            </div><!-- End .custom-checkbox -->
+                    }
+                }'>
+                    <div class="intro-slide" style="background-image: url(https://source.unsplash.com/1600x900/?extreme-sports);">
+                        <div class="container intro-content text-center">
+                            <h3 class="intro-subtitle">Push Your Limits</h3>
+                            <h1 class="intro-title">Extreme Sports Gear<br>Up to 40% Off</h1>
+                            <a href="#featured" class="btn btn-primary">Shop Now</a>
                         </div>
-                    </div>
-                    <div class="col-xl-2-5col col-lg-5 ">
-                        <img src="assets/images/popup/newsletter/img-1.jpg" class="newsletter-img" alt="newsletter">
                     </div>
                 </div>
             </div>
-        </div>
+
+            <!-- Adventure Categories -->
+            <div class="container">
+                <h2 class="section-title">Choose Your Adventure</h2>
+                <div class="row">
+                    <?php foreach($adventures as $adventure): ?>
+                        <div class="col-md-6 col-lg-3">
+                            <div class="adventure-card">
+                                <img src="<?php echo $adventure['image']; ?>" alt="<?php echo $adventure['name']; ?>">
+                                <div class="adventure-content">
+                                    <div class="adventure-icon">
+                                        <i class="<?php echo $adventure['icon']; ?>"></i>
+                                    </div>
+                                    <h3><?php echo $adventure['name']; ?></h3>
+                                    <ul class="gear-list">
+                                        <?php foreach($adventure['gear'] as $item): ?>
+                                            <li><?php echo $item; ?></li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                    <div class="skill-levels">
+                                        <?php foreach($adventure['skill_levels'] as $level): ?>
+                                            <span class="skill-level"><?php echo $level; ?></span>
+                                        <?php endforeach; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+
+            <!-- Safety Guides -->
+            <div class="container">
+                <h2 class="section-title">Safety First</h2>
+                <div class="row">
+                    <?php foreach($safety_guides as $guide): ?>
+                        <div class="col-md-4">
+                            <div class="safety-card">
+                                <img src="<?php echo $guide['image']; ?>" alt="<?php echo $guide['title']; ?>">
+                                <div class="safety-content">
+                                    <h3><?php echo $guide['title']; ?></h3>
+                                    <h4>Essential Gear:</h4>
+                                    <ul class="gear-list">
+                                        <?php foreach($guide['essential_gear'] as $gear): ?>
+                                            <li><?php echo $gear; ?></li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                    <h4>Safety Tips:</h4>
+                                    <ul class="safety-tips">
+                                        <?php foreach($guide['tips'] as $tip): ?>
+                                            <li><?php echo $tip; ?></li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+
+            <!-- Featured Products -->
+            <div id="featured" class="container">
+                <h2 class="section-title">Featured Gear</h2>
+                <div class="row">
+                    <?php
+                    if (!empty($featured_products)) {
+                        foreach ($featured_products as $product) {
+                            $discount = calculateDiscount($product['product_price'], $product['product_sale_price'] ?? null);
+                            ?>
+                            <div class="col-6 col-md-4 col-lg-3">
+                                <div class="product">
+                                    <figure class="product-media">
+                                        <?php if ($discount > 0): ?>
+                                            <span class="product-label label-sale">-<?php echo $discount; ?>%</span>
+                                        <?php endif; ?>
+                                        <a href="product.php?id=<?php echo $product['id']; ?>">
+                                            <img src="<?php echo $product['product_image1']; ?>" alt="<?php echo $product['product_title']; ?>" class="product-image">
+                                        </a>
+                                        <div class="product-action">
+                                            <a href="#" class="btn-product btn-cart" data-product-id="<?php echo $product['id']; ?>"><span>add to cart</span></a>
+                                            <a href="#" class="btn-product btn-wishlist" data-product-id="<?php echo $product['id']; ?>"><span>add to wishlist</span></a>
+                                        </div>
+                                    </figure>
+                                    <div class="product-body">
+                                        <div class="product-cat">
+                                            <a href="#">Extreme Sports</a>
+                                        </div>
+                                        <h3 class="product-title">
+                                            <a href="product.php?id=<?php echo $product['id']; ?>"><?php echo $product['product_title']; ?></a>
+                                        </h3>
+                                        <div class="product-price">
+                                            <?php if (isset($product['product_sale_price'])): ?>
+                                                <span class="new-price"><?php echo formatPrice($product['product_sale_price']); ?></span>
+                                                <span class="old-price"><?php echo formatPrice($product['product_price']); ?></span>
+                                            <?php else: ?>
+                                                <span><?php echo formatPrice($product['product_price']); ?></span>
+                                            <?php endif; ?>
+                                        </div>
+                                        <div class="ratings-container">
+                                            <div class="ratings">
+                                                <?php echo displayRating($product['rating']); ?>
+                                            </div>
+                                            <span class="ratings-text">( <?php echo $product['review_count']; ?> Reviews )</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                    }
+                    ?>
+                </div>
+            </div>
+
+            <!-- Adventure Locations -->
+            <div class="container">
+                <h2 class="section-title">Adventure Spots</h2>
+                <div class="row">
+                    <?php foreach($locations as $location): ?>
+                        <div class="col-md-4">
+                            <div class="location-card">
+                                <img src="<?php echo $location['image']; ?>" alt="<?php echo $location['name']; ?>">
+                                <div class="location-content">
+                                    <span class="type"><?php echo $location['type']; ?></span>
+                                    <h3><?php echo $location['name']; ?></h3>
+                                    <div class="features">
+                                        <h4>Features:</h4>
+                                        <ul class="list-unstyled">
+                                            <?php foreach($location['features'] as $feature): ?>
+                                                <li><?php echo $feature; ?></li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    </div>
+                                    <p class="difficulty">Difficulty: <?php echo $location['difficulty']; ?></p>
+                                    <div class="gear">
+                                        <h4>Recommended Gear:</h4>
+                                        <ul class="gear-list">
+                                            <?php foreach($location['recommended_gear'] as $gear): ?>
+                                                <li><?php echo $gear; ?></li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+
+            <!-- Skill Level Guides -->
+            <div class="container">
+                <h2 class="section-title">Skill Level Guides</h2>
+                <div class="row">
+                    <?php foreach($skill_guides as $guide): ?>
+                        <div class="col-md-4">
+                            <div class="skill-guide-card">
+                                <h3><?php echo $guide['level']; ?></h3>
+                                <p><?php echo $guide['description']; ?></p>
+                                <h4>Recommended Gear:</h4>
+                                <ul class="skill-tips">
+                                    <?php foreach($guide['recommended_gear'] as $gear): ?>
+                                        <li><?php echo $gear; ?></li>
+                                    <?php endforeach; ?>
+                                </ul>
+                                <h4>Tips:</h4>
+                                <ul class="skill-tips">
+                                    <?php foreach($guide['tips'] as $tip): ?>
+                                        <li><?php echo $tip; ?></li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+
+        </main>
+
+        <?php include("./includes/footer.php")?>
     </div>
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/jquery.hoverIntent.min.js"></script>
-    <script src="assets/js/jquery.waypoints.min.js"></script>
-    <script src="assets/js/superfish.min.js"></script>
-    <script src="assets/js/owl.carousel.min.js"></script>
-    <script src="assets/js/bootstrap-input-spinner.js"></script>
-    <script src="assets/js/jquery.plugin.min.js"></script>
-    <script src="assets/js/jquery.countdown.min.js"></script>
-    <script src="assets/js/jquery.magnific-popup.min.js"></script>
-    <!-- Main JS File -->
+
+    <button id="scroll-top" title="Back to Top"><i class="fas fa-arrow-up"></i></button>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay"></div>
+    <div class="mobile-menu-container"></div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
     <script src="assets/js/main.js"></script>
-    <script src="assets/js/demos/demo-24.js"></script>
+    <script src="assets/js/demos/demo-24.js"></script><script>
+    $(document).ready(function() {
+        // Add to cart
+        $('.btn-cart').click(function(e) {
+            e.preventDefault();
+            var product_id = $(this).data('product-id');
+            $.ajax({
+                url: 'ajax/add_to_cart.php',
+                type: 'POST',
+                data: {
+                    product_id: product_id,
+                    quantity: 1
+                },
+                success: function(response) {
+                    // Update cart count
+                    updateCartCount();
+                    // Show success message
+                    alert('Product added to cart!');
+                }
+            });
+        });
+
+        // Add to wishlist
+        $('.btn-wishlist').click(function(e) {
+            e.preventDefault();
+            var product_id = $(this).data('product-id');
+            $.ajax({
+                url: 'ajax/add_to_wishlist.php',
+                type: 'POST',
+                data: {
+                    product_id: product_id
+                },
+                success: function(response) {
+                    // Update wishlist count
+                    updateWishlistCount();
+                    // Show success message
+                    alert('Product added to wishlist!');
+                }
+            });
+        });
+
+        // Update cart count
+        function updateCartCount() {
+            $.ajax({
+                url: 'ajax/get_cart_count.php',
+                type: 'GET',
+                success: function(count) {
+                    $('.cart-count').text(count);
+                }
+            });
+        }
+
+        // Update wishlist count
+        function updateWishlistCount() {
+            $.ajax({
+                url: 'ajax/get_wishlist_count.php',
+                type: 'GET',
+                success: function(count) {
+                    $('.wishlist-count').text(count);
+                }
+            });
+        }
+    });
+    </script>
 </body>
-
-<!-- molla/index-24.html  22 Nov 2019 10:02:48 GMT -->
-
-
 </html>

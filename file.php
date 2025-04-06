@@ -182,7 +182,5 @@
 
     // Close database connection
     mysqli_close($conn);
-    ?>
-
-</body>
+    ?></body>
 </html>

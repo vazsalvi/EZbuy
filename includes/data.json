@@ -1,0 +1,185 @@
+{
+    "categories": [
+        {
+            "title": "Electronics",
+            "description": "Latest gadgets and electronics",
+            "featured": true,
+            "id": 1,
+            "created_at": "2025-04-06 15:52:23"
+        },
+        {
+            "title": "Sports & Fitness",
+            "description": "Sports and fitness equipment",
+            "featured": true,
+            "id": 2,
+            "created_at": "2025-04-06 15:52:23"
+        },
+        {
+            "title": "Fashion",
+            "description": "Trendy fashion and accessories",
+            "featured": true,
+            "id": 3,
+            "created_at": "2025-04-06 15:52:23"
+        }
+    ],
+    "products": [
+        {
+            "product_title": "iPhone 13 Pro",
+            "product_description": "Latest iPhone with A15 Bionic chip, Pro camera system, and Super Retina XDR display with ProMotion",
+            "product_price": 99999,
+            "category": "electronics",
+            "subcategory": "smartphones",
+            "id": 1,
+            "created_at": "2025-04-06 16:28:47"
+        },
+        {
+            "product_title": "Samsung Galaxy S21",
+            "product_description": "Flagship Android smartphone with 5G, Dynamic AMOLED display, and professional-grade camera system",
+            "product_price": 79999,
+            "category": "electronics",
+            "subcategory": "smartphones",
+            "id": 2,
+            "created_at": "2025-04-06 16:28:47"
+        },
+        {
+            "product_title": "MacBook Pro 14\"",
+            "product_description": "Powerful laptop with M1 Pro chip, Liquid Retina XDR display, and up to 17 hours of battery life",
+            "product_price": 149999,
+            "category": "electronics",
+            "subcategory": "laptops",
+            "id": 3,
+            "created_at": "2025-04-06 16:28:47"
+        },
+        {
+            "product_title": "Dell XPS 13",
+            "product_description": "Premium ultrabook with InfinityEdge display, Intel Core i7, and long battery life",
+            "product_price": 129999,
+            "category": "electronics",
+            "subcategory": "laptops",
+            "id": 4,
+            "created_at": "2025-04-06 16:28:47"
+        },
+        {
+            "product_title": "iPad Air",
+            "product_description": "Versatile tablet with M1 chip, 10.9-inch Liquid Retina display, and Apple Pencil support",
+            "product_price": 54999,
+            "category": "electronics",
+            "subcategory": "tablets",
+            "id": 5,
+            "created_at": "2025-04-06 16:28:47"
+        },
+        {
+            "product_title": "Sony WH-1000XM4",
+            "product_description": "Premium wireless noise-cancelling headphones with exceptional sound quality",
+            "product_price": 29999,
+            "category": "electronics",
+            "subcategory": "accessories",
+            "id": 6,
+            "created_at": "2025-04-06 16:28:47"
+        },
+        {
+            "product_title": "Apple Watch Series 7",
+            "product_description": "Advanced smartwatch with larger display, faster charging, and comprehensive health features",
+            "product_price": 41999,
+            "category": "electronics",
+            "subcategory": "wearables",
+            "id": 7,
+            "created_at": "2025-04-06 16:28:47"
+        },
+        {
+            "product_title": "PlayStation 5",
+            "product_description": "Next-gen gaming console with 4K graphics, ray tracing, and ultra-high speed SSD",
+            "product_price": 49999,
+            "category": "electronics",
+            "subcategory": "gaming",
+            "id": 8,
+            "created_at": "2025-04-06 16:28:47"
+        }
+    ],
+    "users": [
+        {
+            "username": "testuser",
+            "email": "test@example.com",
+            "password": "$2y$12$tj7GQtTGZsILOYkO8CrqaOgn9NoQQ22D.P57hUTRGXqa0egPB7EqK",
+            "id": 1,
+            "created_at": "2025-04-06 14:28:12"
+        },
+        {
+            "username": "testuser",
+            "email": "test@example.com",
+            "password": "$2y$12$q.t63NwX8QTo5o2tvdJi1OQou48U4AlWRf\/goO1LkeKzcCSGdckq6",
+            "id": 2,
+            "created_at": "2025-04-06 14:53:47"
+        }
+    ],
+    "chat_logs": [
+        {
+            "timestamp": "2025-04-06 18:27:59",
+            "user_message": "Hi, I'm looking for smartphones",
+            "bot_response": "I'm here to help you find the perfect products! You can ask me about:\n- Product recommendations\n- Price information\n- Shipping details\n- Order tracking\n- Returns and refunds\n\nWhat would you like to know?",
+            "api_used": true,
+            "search_query": true,
+            "id": 1,
+            "created_at": "2025-04-06 18:27:59"
+        },
+        {
+            "timestamp": "2025-04-06 18:29:31",
+            "user_message": "Show me available smartphones",
+            "bot_response": "I'm here to help you find the perfect products! You can ask me about:\n- Product recommendations\n- Price information\n- Shipping details\n- Order tracking\n- Returns and refunds\n\nWhat would you like to know?",
+            "api_used": true,
+            "search_query": true,
+            "id": 2,
+            "created_at": "2025-04-06 18:29:31"
+        },
+        {
+            "timestamp": "2025-04-06 18:31:23",
+            "user_message": "I want to buy a smartphone",
+            "bot_response": "I found these products that might interest you:\n\n\ud83d\udce6 iPhone 13 Pro\n\ud83d\udcb0 Rs.99999\n\u2139\ufe0f Latest iPhone with A15 Bionic chip, Pro camera system, and Super Retina XDR display with ProMotion...\n\ud83d\udd17 <a href='product.php?product_id=1'>View Product<\/a>\n\n\ud83d\udce6 Samsung Galaxy S21\n\ud83d\udcb0 Rs.79999\n\u2139\ufe0f Flagship Android smartphone with 5G, Dynamic AMOLED display, and professional-grade camera system...\n\ud83d\udd17 <a href='product.php?product_id=2'>View Product<\/a>\n\n\ud83d\udce6 MacBook Pro 14\"\n\ud83d\udcb0 Rs.149999\n\u2139\ufe0f Powerful laptop with M1 Pro chip, Liquid Retina XDR display, and up to 17 hours of battery life...\n\ud83d\udd17 <a href='product.php?product_id=3'>View Product<\/a>\n\n\ud83d\udce6 Dell XPS 13\n\ud83d\udcb0 Rs.129999\n\u2139\ufe0f Premium ultrabook with InfinityEdge display, Intel Core i7, and long battery life...\n\ud83d\udd17 <a href='product.php?product_id=4'>View Product<\/a>\n\n\ud83d\udce6 iPad Air\n\ud83d\udcb0 Rs.54999\n\u2139\ufe0f Versatile tablet with M1 chip, 10.9-inch Liquid Retina display, and Apple Pencil support...\n\ud83d\udd17 <a href='product.php?product_id=5'>View Product<\/a>\n\nWould you like more specific details about any of these products?",
+            "products_found": true,
+            "id": 3,
+            "created_at": "2025-04-06 18:31:23"
+        },
+        {
+            "timestamp": "2025-04-06 18:56:18",
+            "user_message": "Can you help me find products to buy?",
+            "bot_response": "I found these products that might interest you:\n\n\ud83d\udce6 Sony WH-1000XM4\n\ud83d\udcb0 Rs.29999\n\u2139\ufe0f Premium wireless noise-cancelling headphones with exceptional sound quality...\n\ud83d\udd17 <a href='product.php?product_id=6'>View Product<\/a>\n\nWould you like more specific details about any of these products?",
+            "products_found": true,
+            "id": 4,
+            "created_at": "2025-04-06 18:56:18"
+        },
+        {
+            "timestamp": "2025-04-06 19:11:53",
+            "user_message": "Can you help me find products to buy?",
+            "bot_response": "I found these products that might interest you:\n\n\ud83d\udce6 Sony WH-1000XM4\n\ud83d\udcb0 Rs.29999\n\u2139\ufe0f Premium wireless noise-cancelling headphones with exceptional sound quality...\n\ud83d\udd17 <a href='product.php?product_id=6'>View Product<\/a>\n\nWould you like more specific details about any of these products?",
+            "products_found": true,
+            "id": 5,
+            "created_at": "2025-04-06 19:11:53"
+        },
+        {
+            "timestamp": "2025-04-06 19:12:08",
+            "user_message": "show me some clothes",
+            "bot_response": "I'm here to help you find the perfect products! You can ask me about:\n- Product recommendations\n- Price information\n- Shipping details\n- Order tracking\n- Returns and refunds\n\nWhat would you like to know?",
+            "products_found": false,
+            "id": 6,
+            "created_at": "2025-04-06 19:12:08"
+        },
+        {
+            "timestamp": "2025-04-06 19:52:29",
+            "user_message": "What is your return policy?",
+            "bot_response": "I found these products that might interest you:\n\n\ud83d\udce6 iPhone 13 Pro\n\ud83d\udcb0 Rs.99999\n\u2139\ufe0f Latest iPhone with A15 Bionic chip, Pro camera system, and Super Retina XDR display with ProMotion...\n\ud83d\udd17 <a href='product.php?product_id=1'>View Product<\/a>\n\n\ud83d\udce6 Samsung Galaxy S21\n\ud83d\udcb0 Rs.79999\n\u2139\ufe0f Flagship Android smartphone with 5G, Dynamic AMOLED display, and professional-grade camera system...\n\ud83d\udd17 <a href='product.php?product_id=2'>View Product<\/a>\n\n\ud83d\udce6 MacBook Pro 14\"\n\ud83d\udcb0 Rs.149999\n\u2139\ufe0f Powerful laptop with M1 Pro chip, Liquid Retina XDR display, and up to 17 hours of battery life...\n\ud83d\udd17 <a href='product.php?product_id=3'>View Product<\/a>\n\n\ud83d\udce6 Dell XPS 13\n\ud83d\udcb0 Rs.129999\n\u2139\ufe0f Premium ultrabook with InfinityEdge display, Intel Core i7, and long battery life...\n\ud83d\udd17 <a href='product.php?product_id=4'>View Product<\/a>\n\n\ud83d\udce6 iPad Air\n\ud83d\udcb0 Rs.54999\n\u2139\ufe0f Versatile tablet with M1 chip, 10.9-inch Liquid Retina display, and Apple Pencil support...\n\ud83d\udd17 <a href='product.php?product_id=5'>View Product<\/a>\n\nWould you like more specific details about any of these products?",
+            "products_found": true,
+            "id": 7,
+            "created_at": "2025-04-06 19:52:29"
+        },
+        {
+            "timestamp": "2025-04-06 19:52:38",
+            "user_message": "yes",
+            "bot_response": "I'm here to help you find the perfect products! You can ask me about:\n- Product recommendations\n- Price information\n- Shipping details\n- Order tracking\n- Returns and refunds\n\nWhat would you like to know?",
+            "products_found": false,
+            "id": 8,
+            "created_at": "2025-04-06 19:52:38"
+        }
+    ],
+    "cart": [],
+    "wishlist": []
+}

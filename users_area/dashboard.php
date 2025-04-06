@@ -439,8 +439,7 @@ if ($row = mysqli_fetch_assoc($result)) {
     <script src="assets/js/superfish.min.js"></script>
     <script src="assets/js/owl.carousel.min.js"></script>
     <!-- Main JS File -->
-    <script src="assets/js/main.js"></script>
-</body>
+    <script src="assets/js/main.js"></script></body>
 
 
 <!-- molla/dashboard.html  22 Nov 2019 10:03:13 GMT -->

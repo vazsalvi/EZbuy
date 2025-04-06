@@ -713,8 +713,7 @@ if (isset($_GET['product_id'])) {
     <script src="assets/js/bootstrap-input-spinner.js"></script>
     <script src="assets/js/jquery.magnific-popup.min.js"></script>
     <!-- Main JS File -->
-    <script src="assets/js/main.js"></script>
-</body>
+    <script src="assets/js/main.js"></script></body>
 
 
 <!-- molla/product.html  22 Nov 2019 09:55:05 GMT -->

@@ -1,4 +1,3 @@
-<?php include 'chat2.php'; ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <link rel="stylesheet" href="style.css">
@@ -524,8 +523,7 @@
     <script src="assets/js/superfish.min.js"></script>
     <script src="assets/js/owl.carousel.min.js"></script>
     <!-- Main JS File -->
-    <script src="assets/js/main.js"></script>
-</body>
+    <script src="assets/js/main.js"></script></body>
 
 
 <!-- molla/about.html  22 Nov 2019 10:03:54 GMT -->

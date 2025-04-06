@@ -9,8 +9,7 @@ session_start();
 </head>
 <body>
     <h1>Welcome, <?php echo $_SESSION['admin_name']; ?>!</h1>
-    <!-- Rest of your admin dashboard content -->
-</body>
+    <!-- Rest of your admin dashboard content --></body>
 </html>
 <?php
 include('../includes/connect.php');
@@ -137,10 +136,7 @@ include('../includes/connect.php');
          </div>
 
 
-    </div><!-- End .page-wrapper -->
-
-
-</body>
+    </div><!-- End .page-wrapper --></body>
 <script>
         function logout() {
             let confirmLogout = confirm("Are you sure you want to log out?");

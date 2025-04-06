@@ -1,4 +1,3 @@
-<?php include 'chat2.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -666,8 +665,7 @@
     <script src="assets/js/imagesloaded.pkgd.min.js"></script>
     <script src="assets/js/isotope.pkgd.min.js"></script>
     <!-- Main JS File -->
-    <script src="assets/js/main.js"></script>
-</body>
+    <script src="assets/js/main.js"></script></body>
 
 
 <!-- molla/blog-grid-2cols.html  22 Nov 2019 10:04:15 GMT -->
