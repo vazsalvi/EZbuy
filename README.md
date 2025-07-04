@@ -88,3 +88,7 @@ Open issues or submit PRs if you'd like to collaborate.
 
 👤 Author
 Made with ❤️ by Salvi Vaz
+## 📄 License
+
+This project is licensed under the [MIT License](./LICENSE).
+
